@@ -43,8 +43,8 @@ public class ManagementController {
 
     @RequestMapping("/getThreadInfoList")
     @ResponseBody
-    public ResultBean getThreadInfoList(Integer currentPage,Integer pageSize,String threadName) {
-        PageBean threadInfoBean = getCurrentThreadInfoPageBean(currentPage,pageSize,threadName);
+    public ResultBean getThreadInfoList(Integer currentPage, Integer pageSize, String threadName) {
+        PageBean threadInfoBean = getCurrentThreadInfoPageBean(currentPage, pageSize, threadName);
         return ResultBean.ok().setData(threadInfoBean);
     }
 
@@ -70,11 +70,11 @@ public class ManagementController {
             }
         }
         List<ThreadInfoBean> resultList = new ArrayList<>();
-        if(StringUtils.isEmpty(threadName)) {
+        if (StringUtils.isEmpty(threadName)) {
             resultList.addAll(threadInfoBeans);
         } else {
             for (ThreadInfoBean threadInfoBean : threadInfoBeans) {
-                if(threadInfoBean.getThreadName().contains(threadName)) {
+                if (threadInfoBean.getThreadName().contains(threadName)) {
                     resultList.add(threadInfoBean);
                 }
             }
@@ -181,17 +181,8 @@ public class ManagementController {
                     (Class<?>[]) null);
             method.setAccessible(true);
             return (Long) method.invoke(operatingSystem, (Object[]) null);
-        } catch (final InvocationTargetException e) {
-            if (e.getCause() instanceof Error) {
-                throw (Error) e.getCause();
-            } else if (e.getCause() instanceof RuntimeException) {
-                throw (RuntimeException) e.getCause();
-            }
-            throw new IllegalStateException(e.getCause());
-        } catch (final NoSuchMethodException e) {
-            throw new IllegalArgumentException(e);
-        } catch (final IllegalAccessException e) {
-            throw new IllegalStateException(e);
+        } catch (Exception e) {
+            return 0;
         }
     }
 
